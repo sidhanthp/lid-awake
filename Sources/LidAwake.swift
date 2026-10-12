@@ -104,8 +104,8 @@ final class LidAwakeApplication: NSObject, NSApplicationDelegate {
             guard let data = try? Data(contentsOf: launchDaemonURL),
                   let propertyList = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
                   let arguments = propertyList["ProgramArguments"] as? [String],
-                  arguments.count >= 3 else { return nil }
-            return arguments[2]
+                  arguments.count >= 2 else { return nil }
+            return arguments.last
         }()
         let launchdStatus = run("/bin/launchctl", ["print", "system/\(AppConfig.label)"]) ?? ""
         let helperRunning = launchdStatus.contains("state = running") && launchdStatus.contains("pid =")
